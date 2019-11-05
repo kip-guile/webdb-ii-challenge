@@ -3,7 +3,9 @@ const db = require('../db-config');
 module.exports = {
     read,
     insert,
-    getById
+    getById,
+    update,
+    remove
 }
 
 function getById(id) {
@@ -23,4 +25,16 @@ function insert(car){
         .then(ids => {
            return getById(ids[0])
         })
+}
+
+function update(id, changes) {
+    return db('cars')
+        .where({id})
+        .update(changes)
+}
+
+function remove(id) {
+    return db('cars')
+        .where('id', id)
+        .del()
 }

@@ -28,6 +28,26 @@ router.post('/', (req, res) => {
         })
 })
 
+router.put('/:id', validateCarId, (req, res) => {
+    Cars.update(req.car.id, req.body)
+        .then(car => {
+            res.status(200).json(car)
+        })
+        .catch(error => {
+            res.status(500).json({message: 'Error updating car' + error.message})
+        })
+})
+
+router.delete('/:id', validateCarId, (req, res) => {
+    Cars.remove(req.car.id)
+        .then(() => {
+            res.status(200).json({message: 'car has been deleted'})
+        })
+        .catch(error => {
+            res.status(500).json({message: 'Error deleting car' + error.message})
+        })
+});
+
 function validateCarId(req, res, next) {
     const {id} = req.params;
     Cars.getById(id)
