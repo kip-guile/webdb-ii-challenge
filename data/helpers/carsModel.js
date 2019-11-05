@@ -3,6 +3,13 @@ const db = require('../db-config');
 module.exports = {
     read,
     insert,
+    getById
+}
+
+function getById(id) {
+    return db('cars')
+        .where({id})
+        .first();
 }
 
 
@@ -14,6 +21,6 @@ function insert(car){
     return db('cars')
         .insert(car)
         .then(ids => {
-            console.log(ids);
+           return getById(ids[0])
         })
 }
